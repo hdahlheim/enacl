@@ -24,11 +24,14 @@
          %% EQC
          box_keypair/0,
          box/4,
+         box_easy/4,
          box_open/4,
+         box_open_easy/4,
          box_beforenm/2,
          box_afternm/3,
          box_open_afternm/3,
          box_NONCEBYTES/0,
+         box_MACBYTES/0,
          box_PUBLICKEYBYTES/0,
          box_SECRETKEYBYTES/0,
          box_BEFORENMBYTES/0,
@@ -550,6 +553,21 @@ box_keypair() ->
 box(Msg, Nonce, PK, SK) ->
     enacl_nif:crypto_box([?P_ZEROBYTES, Msg], Nonce, PK, SK).
 
+%% @doc box_easy/4 encrypts+authenticates a message to another party.
+%%
+%% Encrypt a `Msg' to the party identified by public key `PK' using your own secret key `SK' to
+%% authenticate yourself. Requires a `Nonce' in addition. Returns the ciphered message.
+%% @end
+-spec box_easy(Msg, Nonce, PK, SK) -> CipherText
+    when
+      Msg :: iodata(),
+      Nonce :: binary(),
+      PK :: binary(),
+      SK :: binary(),
+      CipherText :: binary().
+box_easy(Msg, Nonce, PK, SK) ->
+    enacl_nif:crypto_box_easy(Msg, Nonce, PK, SK).
+
 %% @doc box_open/4 decrypts+verifies a message from another party.
 %%
 %% Decrypt a `CipherText' into a `Msg' given the other partys public key `PK' and your secret
@@ -565,6 +583,22 @@ box(Msg, Nonce, PK, SK) ->
       Msg :: binary().
 box_open(CipherText, Nonce, PK, SK) ->
     enacl_nif:crypto_box_open([?P_BOXZEROBYTES, CipherText], Nonce, PK, SK).
+
+%% @doc box_open_easy/4 decrypts+verifies a message from another party.
+%%
+%% Decrypt a `CipherText' into a `Msg' given the other partys public key `PK' and your secret
+%% key `SK'. Also requires the same nonce as was used by the other party. Returns the plaintext
+%% message.
+%% @end
+-spec box_open_easy(CipherText, Nonce, PK, SK) -> {ok, Msg} | {error, failed_verification}
+    when
+      CipherText :: iodata(),
+      Nonce :: binary(),
+      PK :: binary(),
+      SK :: binary(),
+      Msg :: binary().
+box_open_easy(CipherText, Nonce, PK, SK) ->
+    enacl_nif:crypto_box_open_easy(CipherText, Nonce, PK, SK).
 
 %% @doc box_beforenm/2 precomputes a box shared key for a PK/SK keypair
 %% @end
@@ -626,6 +660,11 @@ box_open_afternm(CipherText, Nonce, Key) ->
 -spec box_NONCEBYTES() -> pos_integer().
 box_NONCEBYTES() ->
     enacl_nif:crypto_box_NONCEBYTES().
+
+%% @private
+-spec box_MACBYTES() -> pos_integer().
+box_MACBYTES() ->
+    enacl_nif:crypto_box_MACBYTES().
 
 %% @private
 -spec box_PUBLICKEYBYTES() -> pos_integer().

@@ -198,6 +198,7 @@ static ErlNifFunc nif_funcs[] = {
     {"crypto_box_PUBLICKEYBYTES", 0, enacl_crypto_box_PUBLICKEYBYTES},
     {"crypto_box_SECRETKEYBYTES", 0, enacl_crypto_box_SECRETKEYBYTES},
     {"crypto_box_BEFORENMBYTES", 0, enacl_crypto_box_BEFORENMBYTES},
+    {"crypto_box_MACBYTES", 0, enacl_crypto_box_MACBYTES},
 
     erl_nif_dirty_job_cpu_bound_macro("crypto_box_keypair", 0,
                                       enacl_crypto_box_keypair),
@@ -205,6 +206,9 @@ static ErlNifFunc nif_funcs[] = {
     erl_nif_dirty_job_cpu_bound_macro("crypto_box", 4, enacl_crypto_box),
     erl_nif_dirty_job_cpu_bound_macro("crypto_box_open", 4,
                                       enacl_crypto_box_open),
+    erl_nif_dirty_job_cpu_bound_macro("crypto_box_easy", 4, enacl_crypto_box_easy),
+    erl_nif_dirty_job_cpu_bound_macro("crypto_box_open_easy", 4,
+                                      enacl_crypto_box_open_easy),
 
     {"crypto_box_beforenm", 2, enacl_crypto_box_beforenm},
     {"crypto_box_afternm_b", 3, enacl_crypto_box_afternm},

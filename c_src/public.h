@@ -19,6 +19,9 @@ ERL_NIF_TERM enacl_crypto_box_SECRETKEYBYTES(ErlNifEnv *env, int argc,
 ERL_NIF_TERM enacl_crypto_box_BEFORENMBYTES(ErlNifEnv *env, int argc,
                                             ERL_NIF_TERM const argv[]);
 
+ERL_NIF_TERM enacl_crypto_box_MACBYTES(ErlNifEnv *env, int argc,
+                                       ERL_NIF_TERM const argv[]);
+
 ERL_NIF_TERM enacl_crypto_box_keypair(ErlNifEnv *env, int argc,
                                       ERL_NIF_TERM const argv[]);
 
@@ -26,6 +29,12 @@ ERL_NIF_TERM enacl_crypto_box(ErlNifEnv *env, int argc,
                               ERL_NIF_TERM const argv[]);
 
 ERL_NIF_TERM enacl_crypto_box_open(ErlNifEnv *env, int argc,
+                                   ERL_NIF_TERM const argv[]);
+
+ERL_NIF_TERM enacl_crypto_box_easy(ErlNifEnv *env, int argc,
+                              ERL_NIF_TERM const argv[]);
+
+ERL_NIF_TERM enacl_crypto_box_open_easy(ErlNifEnv *env, int argc,
                                    ERL_NIF_TERM const argv[]);
 
 ERL_NIF_TERM enacl_crypto_box_beforenm(ErlNifEnv *env, int argc,
